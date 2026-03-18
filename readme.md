@@ -1,94 +1,53 @@
-\# 🎮 Real-Time Game \& Visual Novel Translator (Anlık Oyun Çevirmeni)
+🎮 Anlık Oyun Çevirmeni (Real-Time Game & Visual Novel Translator)
+Selamlar! Bu projeyi, özellikle Persona 5 Royal gibi hikaye tabanlı JRPG'leri veya bol metinli Visual Novel'ları oynarken sürekli çeviri programlarına alt-tab yapmaktan sıkıldığım için geliştirdim.
 
+Ekranda belirlediğiniz bir alanı saniyede bir okuyor ve arka planda oyunu bölmeden, şeffaf bir arayüzle Türkçe'ye çeviriyor. Temel amacım, ekranda sürekli flaş gibi patlayan ve göz yoran tasarımlar yerine, sanki bir "kitap okuyormuş" hissiyatı veren, oyunun atmosferine yedirilmiş bir çeviri deneyimi sunmaktı.
 
+![Uploading 1773863484353.png…]()
 
-Bu proje, ekrandaki belirli bir bölgedeki İngilizce metinleri anlık olarak algılayan, görüntü işleme algoritmalarıyla netleştiren ve Türkçe'ye çevirerek şeffaf bir arayüz üzerinde gösteren bir masaüstü uygulamasıdır. 
+💡 Neler Yapabiliyor?
+Anlık ve Kesintisiz Çeviri: Hedef bölgedeki metni oyunu dondurmaya gerek kalmadan anında yakalayıp çevirir.
 
+Daktilo (Typewriter) Efektiyle Başa Çıkma: Oyunlarda metinlerin harf harf ekrana gelmesi OCR araçlarını genelde çıldırtır. Bu program, OCR sapmalarını önlemek için metnin tamamen sabitlenmesini bekliyor (debouncing) ve yarım yamalak, eksik çevirilerin önüne geçiyor.
 
+Göz Yormayan "Kitap Sayfası" Arayüzü: Uzun okumalarda gözü mahvetmemesi için arayüzü karanlık modda, serif fontlarla ve olabildiğince sade tasarladım. Okurken program varlığını hissettirmiyor bile.
 
-Özellikle metin yoğunluğu yüksek olan \*\*Görsel Romanlar (Visual Novels)\*\* ve hikaye tabanlı \*\*JRPG'ler (örneğin Persona 5 Royal vb.)\*\* oynarken akıcılığı bozmadan, göz yormayan bir çeviri deneyimi sunmak amacıyla Python ile geliştirilmiştir.
+Görüntü Temizleme (OpenCV): Saydam metin kutularında veya renkli arka planlarda yazılar birbirine girmesin diye ufak bir ön işleme yapıyoruz. Anlık ekran görüntüsüne gri tonlama, büyütme ve threshold (eşikleme) filtreleri uygulayarak yazıları OCR için belirginleştiriyoruz.
 
+⌨️ Kullanım ve Kısayollar
+Programı açtıktan sonra ekrandaki yeşil/saydam çerçeveyi oyunun metin kutusuna denk getirin. Oyuna daldıktan sonra fareyle uğraşmamak için şu kısayolları kullanabilirsiniz:
 
+F9 - Duraklat / Devam Et: Ara sahneler girdiğinde veya çeviriye o an ihtiyaç duymadığınızda programı hızlıca uyku moduna alabilirsiniz.
 
+F10 - Çerçeveyi Kilitle: "Arayüzü yanlışlıkla kaydırdım" derdini bitirir. Okuma çerçevesini görünmez yapar ve programı oyunun kendi arayüzüymüş gibi ekrana kilitler.
 
+🛠️ Arka Planda Neler Çalışıyor?
+Python 3.x
 
-\## ✨ Özellikler
+PyQt5: O şeffaf, çerçevesiz ve her zaman üstte duran arayüzü yapmamızı sağlayan kütüphane.
 
+Tesseract OCR (PyTesseract): İşin kalbi, metin okuma motorumuz.
 
+OpenCV & Numpy: Tesseract'a göndermeden önce ekran görüntüsünü temizleyip okunabilir hale getiren filtreler.
 
-\* \*\*Anlık ve Kesintisiz Çeviri:\*\* Ekrandaki hedef bölgeyi saniyede bir okur ve metni anında çevirir.
+Mss: Çok daha hızlı ve performanslı ekran görüntüsü almak için (standart kütüphaneler oyunlarda yavaş kalabiliyor).
 
-\* \*\*Daktilo Efekti (Typewriter) Koruması:\*\* Oyunlardaki harf harf ekrana gelen diyalogları algılar. OCR sapmalarını ve eksik çevirileri önlemek için metin tamamen sabitlenene kadar (debouncing) bekler.
+Deep-Translator: Limitsiz, patlamayan stabil çeviri API'miz.
 
-\* \*\*Şeffaf ve Kitap Estetiğinde Arayüz:\*\* Oyunun arayüzünü kapatmayan, serif fontlarla desteklenmiş, uzun okumalarda göz yormayan "karanlık mod / kitap sayfası" estetiğine sahip dinamik UI.
+🚀 Nasıl Kurulur?
+Kendi bilgisayarınızda denemek veya kodu kurcalamak isterseniz adımlar çok basit:
 
-\* \*\*Gelişmiş Görüntü İşleme:\*\* Saydam oyun metin kutularındaki parlamaları ve renk karmaşasını çözmek için OpenCV ile gri tonlama, büyütme ve eşikleme (thresholding) filtreleri uygular.
+1. Tesseract OCR Kurulumu (Zorunlu)
+Programın metinleri okuyabilmesi için sisteminizde Tesseract kurulu olmalı.
 
-\* \*\*Akıllı Kısayollar:\*\* Oyun oynarken fareye ihtiyaç duymadan arayüzü kontrol edebilme.
+Tesseract OCR Windows sürümünü buradan indirin ve kurun. https://github.com/UB-Mannheim/tesseract/wiki
 
+Kurulumu yaparken varsayılan yolu (C:\Program Files\Tesseract-OCR\tesseract.exe) değiştirmemeye çalışın. Farklı bir yere kurarsanız ceviri.py içindeki Tesseract yolunu kendi bilgisayarınıza göre güncellemeniz gerekecek.
 
+2. Kütüphaneleri Yükleme
+Projeyi bilgisayarınıza klonlayın ve gerekli Python paketlerini kurun:
 
-\## ⌨️ Kısayollar ve Kullanım
-
-
-
-Programı başlattıktan sonra yeşil/saydam çerçeveyi oyunun metin kutusuna hizalayın ve arayüzü yönetmek için kısayolları kullanın:
-
-
-
-\* \*\*`F9` - Duraklat / Devam Et:\*\* Ara sahnelerde veya çeviri istemediğiniz anlarda programı uyku moduna alır.
-
-\* \*\*`F10` - Pencereyi Kilitle:\*\* Arayüzün yanlışlıkla sürüklenmesini veya boyutunun değişmesini engeller. Okuma çerçevesini görünmez yaparak oyunun atmosferine uyum sağlar.
-
-
-
-\## 🛠️ Kullanılan Teknolojiler
-
-
-
-\* \*\*Python 3.x\*\*
-
-\* \*\*PyQt5:\*\* Çerçevesiz (Frameless), şeffaf ve her zaman üstte duran (Always on Top) grafik arayüz (GUI) mimarisi.
-
-\* \*\*Tesseract OCR (PyTesseract):\*\* Optik karakter tanıma motoru.
-
-\* \*\*OpenCV \& Numpy:\*\* OCR doğruluk oranını artırmak için ön görüntü işleme.
-
-\* \*\*Mss:\*\* Ultra hızlı ekran görüntüsü yakalama.
-
-\* \*\*Deep-Translator:\*\* Limitsiz ve stabil çeviri API entegrasyonu.
-
-
-
-\## 🚀 Kurulum
-
-
-
-Bu projeyi kendi bilgisayarınızda çalıştırmak veya geliştirmek için aşağıdaki adımları izleyin:
-
-
-
-\### 1. Tesseract OCR Kurulumu (Zorunlu)
-
-Bu program metinleri okuyabilmek için Tesseract motoruna ihtiyaç duyar.
-
-\* \[Tesseract OCR Windows sürümünü buradan indirin](https://github.com/UB-Mannheim/tesseract/wiki) ve kurun.
-
-\* Kurulum yolunun `C:\\Program Files\\Tesseract-OCR\\tesseract.exe` olduğundan emin olun (Farklı bir yere kurarsanız `ceviri.py` içindeki yolu güncelleyin).
-
-
-
-\### 2. Kütüphanelerin Kurulumu
-
-Projeyi klonlayın ve gerekli Python kütüphanelerini yükleyin:
-
-
-
-```bash
-
+bash
 git clone https://github.com/KylN35/anlik-oyun-cevirmeni.git
-
-cd \anlık-oyun-cevirmeni
-
+cd anlik-oyun-cevirmeni
 pip install -r requirements.txt
-
