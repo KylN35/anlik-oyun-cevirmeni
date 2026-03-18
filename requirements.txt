@@ -1,0 +1,1 @@
+PyQt5, opencv-python, pytesseract, mss, keyboard, deep-translator
