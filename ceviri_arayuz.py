@@ -131,16 +131,16 @@ class TransparentOverlay(QMainWindow):
 
     def update_label_style(self, color, is_translating=False):
         font_style = "italic" if is_translating else "normal"
-        opacity = "0.7" if is_translating else "1.0"
+        opacity = "0.85" if is_translating else "1.0"
         
         self.text_label.setStyleSheet(f"""
-            background-color: rgba(20, 20, 22, 230); 
-            color: {color}; 
+            background-color: rgba(20, 20, 22, 130); 
+            color: rgba(234, 230, 214, {opacity});
             font-size: 26px; 
-            font-weight: 400; 
+            font-weight: 500; 
             font-style: {font_style};
             font-family: 'Georgia', 'Times New Roman', serif; 
-            padding: 20px; 
+            padding: 15px; 
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             line-height: 1.5;
