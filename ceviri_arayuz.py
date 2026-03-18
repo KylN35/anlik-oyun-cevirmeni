@@ -10,12 +10,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWid
 from PyQt5.QtCore import Qt, QTimer, QPoint, pyqtSignal 
 from deep_translator import GoogleTranslator
 
-# DİKKAT: Tesseract yolunu kontrol et
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-# ==========================================
-# OYUN İÇİ ŞEFFAF ÇEVİRİ ARAYÜZÜ (OVERLAY)
-# ==========================================
 class TransparentOverlay(QMainWindow):
     pause_signal = pyqtSignal()
     lock_signal = pyqtSignal()
@@ -34,7 +30,6 @@ class TransparentOverlay(QMainWindow):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
 
-        # ÜST KISIM (ÇEVİRİ PANELİ)
         self.text_label = QLabel("Çeviri Bekleniyor...\n[F9: Duraklat | F10: Kilitle]", self)
         self.text_label.setAlignment(Qt.AlignCenter)
         self.text_label.setWordWrap(True)
@@ -49,7 +44,6 @@ class TransparentOverlay(QMainWindow):
         self.layout.addWidget(self.text_label)
         self.update_label_style("#EAE6D6", is_translating=False) 
 
-        # ALT KISIM (EKRAN YAKALAMA ÇERÇEVESİ)
         self.capture_frame = QFrame(self)
         self.capture_frame.setStyleSheet("""
             background-color: transparent;
@@ -63,7 +57,6 @@ class TransparentOverlay(QMainWindow):
         self.frame_layout = QVBoxLayout(self.capture_frame)
         self.frame_layout.setContentsMargins(0, 0, 0, 0)
         
-        # BOYUTLANDIRMA KÖŞESİ 
         self.size_grip = QSizeGrip(self.capture_frame)
         self.size_grip.setStyleSheet("""
             background-color: rgba(30, 30, 32, 220); 
@@ -146,10 +139,8 @@ class TransparentOverlay(QMainWindow):
             line-height: 1.5;
         """)
 
-    # --- ÇÖZÜMÜN OLDUĞU FARE KONTROL KISMI ---
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton and not self.is_locked:
-            # Fare sağ alt köşedeki 30x30 piksellik alana (butonun üstüne) tıklandıysa taşımayı iptal et
             if event.pos().x() > self.width() - 30 and event.pos().y() > self.height() - 30:
                 self._is_dragging = False
             else:
@@ -157,7 +148,6 @@ class TransparentOverlay(QMainWindow):
                 self.oldPos = event.globalPos()
 
     def mouseMoveEvent(self, event):
-        # Sadece _is_dragging True ise pencereyi hareket ettir
         if event.buttons() == Qt.LeftButton and not self.is_locked and self._is_dragging:
             delta = event.globalPos() - self.oldPos
             self.move(self.x() + delta.x(), self.y() + delta.y())
@@ -165,7 +155,7 @@ class TransparentOverlay(QMainWindow):
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self._is_dragging = False # Tıklama bırakıldığında sürüklemeyi sıfırla
+            self._is_dragging = False 
 
     def capture_and_read(self):
         if self.is_paused:
@@ -194,9 +184,8 @@ class TransparentOverlay(QMainWindow):
             current_text = pytesseract.image_to_string(thresh, lang='eng', config=custom_config).strip()
             current_text = " ".join(current_text.split('\n'))
 
-            # --- OCR FONT DÜZELTME FİLTRESİ ---
-            current_text = current_text.replace('|', 'I') # Dik çizgiyi I yap
-            current_text = re.sub(r'\bl\b', 'I', current_text) # Tek başına duran küçük l harfini I yap
+            current_text = current_text.replace('|', 'I') 
+            current_text = re.sub(r'\bl\b', 'I', current_text) 
 
             if current_text:
                 if self.last_translated_text and SequenceMatcher(None, current_text, self.last_translated_text).ratio() > 0.85:
@@ -224,9 +213,6 @@ class TransparentOverlay(QMainWindow):
         except Exception as e:
             pass 
 
-# ==========================================
-# BAŞLATMA ARAYÜZÜ (LAUNCHER)
-# ==========================================
 class LauncherWindow(QMainWindow):
     def __init__(self):
         super().__init__()
