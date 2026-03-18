@@ -10,8 +10,6 @@ Bu proje, ekrandaki belirli bir bölgedeki İngilizce metinleri anlık olarak al
 
 
 
-!\[Ekran Görüntüsü](\[Buraya programın çalışırken çekilmiş bir ekran görüntüsünü veya GIF'ini ekleyin])
-
 
 
 \## ✨ Özellikler
