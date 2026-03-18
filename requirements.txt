@@ -1,6 +1,7 @@
 PyQt5
-pytesseract
 opencv-python
 numpy
+pytesseract
 mss
+keyboard
 deep-translator
