@@ -90,7 +90,7 @@ Projeyi klonlayın ve gerekli Python kütüphanelerini yükleyin:
 
 git clone https://github.com/KylN35/anlik-oyun-cevirmeni.git
 
-cd \[RepoAdin]
+cd \anlık-oyun-cevirmeni
 
 pip install -r requirements.txt
 
