@@ -1,3 +1,4 @@
+import re
 import sys
 import cv2
 import numpy as np
@@ -192,6 +193,10 @@ class TransparentOverlay(QMainWindow):
             custom_config = r'--oem 3 --psm 6'
             current_text = pytesseract.image_to_string(thresh, lang='eng', config=custom_config).strip()
             current_text = " ".join(current_text.split('\n'))
+
+            # --- OCR FONT DÜZELTME FİLTRESİ ---
+            current_text = current_text.replace('|', 'I') # Dik çizgiyi I yap
+            current_text = re.sub(r'\bl\b', 'I', current_text) # Tek başına duran küçük l harfini I yap
 
             if current_text:
                 if self.last_translated_text and SequenceMatcher(None, current_text, self.last_translated_text).ratio() > 0.85:
