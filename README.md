@@ -22,6 +22,6 @@ Proje, ihtiyaca göre iki farklı motor seçeneği sunmaktadır. Lütfen kullanm
 ---
 
 ## 👨‍💻 Geliştirici
-**Arda Aktaş** *Akdeniz Üniversitesi - Robotik ve Yapay Zeka Bölümü*
+**Arda Aktaş** 
 
 ---
